@@ -1,0 +1,4 @@
+<launch>
+	<node pkg="mini_robot" type="printer.py" name="printer_node" output="screen">
+	</node>
+</launch>
