@@ -113,19 +113,26 @@ class Mpu6050IO():
 			
 		return output
 
-rospy.init_node('imu_publisher')
-pub = rospy.Publisher('imu_state', IMU, queue_size=10)  # Publish on phrases topic
 
-rate = rospy.Rate(2)  # 2Hz
-imu_msg = IMU()
+def main():
+	rospy.init_node('imu_publisher')
+	pub = rospy.Publisher('imu_state', IMU, queue_size=10)  # Publish on imu_state topic
 
-bus = SMBus(1)
-mpu_comms = Mpu6050IO(bus)
+	rate = rospy.Rate(2)  # 2Hz
+	imu_msg = IMU()
 
-while not rospy.is_shutdown():
-	accel_output = mpu_comms.get_processed_sensor_output()
-	gyro_output = mpu_comms.get_processed_sensor_output(gyro=True)
-	imu_msg.accel_data = accel_output
-	imu_msg.gyro_data = gyro_output
-	pub.publish(imu_msg)
-	rate.sleep()
+	# I2C serial bus
+	bus = SMBus(1)
+	mpu_comms = Mpu6050IO(bus)
+
+	while not rospy.is_shutdown():
+		accel_output = mpu_comms.get_processed_sensor_output()
+		gyro_output = mpu_comms.get_processed_sensor_output(gyro=True)
+		imu_msg.accel_data = accel_output
+		imu_msg.gyro_data = gyro_output
+		pub.publish(imu_msg)
+		rate.sleep()
+		
+
+if __name__ == "__main__":
+	main()
