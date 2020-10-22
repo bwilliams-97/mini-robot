@@ -21,6 +21,13 @@ class RangeReader:
 		
 	def read_voltage(self) -> float:
 		return self._channel.voltage
+		
+	def read_range(self) -> float:
+		raw_voltage = self.read_voltage()
+		
+		# TODO: Convert from voltage to distance (calibrate).
+		distance = raw_voltage
+		return distance
 
 def main():
 	rospy.init_node('range_publisher')
@@ -38,7 +45,7 @@ def main():
 	range_msg = Float32()
 
 	while not rospy.is_shutdown():
-		range_msg = range_reader.read_voltage()
+		range_msg = range_reader.read_range()
 		pub.publish(range_msg)
 		rate.sleep()
 		

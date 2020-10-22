@@ -1,4 +1,4 @@
 <launch>
-	<node pkg="mini_robot" type="imu_publisher.py" name="imu_node" output="screen">
-	</node>
+	<node pkg="mini_robot" type="imu_publisher.py" name="imu_node" output="screen"></node>
+	<node pkg="mini_robot" type="range_publisher.py" name="range_node" output="screen"></node>
 </launch>
